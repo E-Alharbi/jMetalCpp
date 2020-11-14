@@ -173,6 +173,8 @@ SolutionSet * NSGAII::execute() {
     delete ranking;
     delete unionSolution;
 
+    if(problem_->evaluateStopConstraints(population->get(0))==true) break;
+
     // This piece of code shows how to use the indicator object into the code
     // of NSGA-II. In particular, it finds the number of evaluations required
     // by the algorithm to obtain a Pareto front with a hypervolume higher
