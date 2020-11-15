@@ -93,7 +93,7 @@ SolutionSet * NSGAII::execute() {
     // Create the offSpring solutionSet
     offspringPopulation = new SolutionSet(populationSize);
     Solution ** parents = new Solution*[2];
-
+std::cout << "evaluations "<<evaluations<< std::endl;
     for (int i = 0; i < (populationSize / 2); i++) {
       if (evaluations < maxEvaluations) {
         //obtain parents
