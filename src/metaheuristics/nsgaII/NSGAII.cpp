@@ -89,7 +89,9 @@ SolutionSet * NSGAII::execute() {
   
   // Generations
   while (evaluations < maxEvaluations) {
-
+	  std::streambuf* cout_sbuf = std::cout.rdbuf(); // save original sbuf
+	     std::ofstream   fout("cout.txt");
+	     std::cout.rdbuf(fout.rdbuf()); // redirect 'cout' to a 'fout'
     // Create the offSpring solutionSet
     offspringPopulation = new SolutionSet(populationSize);
     Solution ** parents = new Solution*[2];
@@ -187,7 +189,7 @@ std::cout << "problem_->evaluateStopConstraints(population->get(0)) "<< std::end
 //        requiredEvaluations = evaluations;
 //      } // if
 //    } // if
-
+    std::cout.rdbuf(cout_sbuf);
   } // while
 
   delete distance;
@@ -203,6 +205,7 @@ std::cout << "problem_->evaluateStopConstraints(population->get(0)) "<< std::end
   }
   delete ranking;
   delete population;
+
 
   return result;
 
