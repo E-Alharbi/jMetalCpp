@@ -172,8 +172,10 @@ SolutionSet * NSGAII::execute() {
 
     delete ranking;
     delete unionSolution;
-
+    std::cout <<"population "<<population->size()<< std::endl;
+std::cout << "problem_->evaluateStopConstraints(population->get(0)) "<< std::endl;
     if(problem_->evaluateStopConstraints(population->get(0))==true) break;
+    std::cout << "problem_->evaluateStopConstraints(population->get(0)) done"<< std::endl;
 
     // This piece of code shows how to use the indicator object into the code
     // of NSGA-II. In particular, it finds the number of evaluations required
