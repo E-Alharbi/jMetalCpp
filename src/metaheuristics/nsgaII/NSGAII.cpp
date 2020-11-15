@@ -116,13 +116,13 @@ SolutionSet * NSGAII::execute() {
         
       } // if
     } // for
-
+    std::cout <<" delete[] parents "<< std::endl;
     delete[] parents;
     
     // Create the solutionSet union of solutionSet and offSpring
     unionSolution = population->join(offspringPopulation);
     delete offspringPopulation;
-
+    std::cout <<" unionSolution "<< std::endl;
     // Ranking the union
     Ranking * ranking = new Ranking(unionSolution);
     
@@ -133,10 +133,10 @@ SolutionSet * NSGAII::execute() {
       delete population->get(i);
     }
     population->clear();
-
+    std::cout <<" population->clear(); "<< std::endl;
     // Obtain the next front
     front = ranking->getSubfront(index);
-
+    std::cout <<" front = ranking->getSubfront(index); "<< std::endl;
     while ((remain > 0) && (remain >= front->size())) {
       //Assign crowding distance to individuals
       distance->crowdingDistanceAssignment(front, problem_->getNumberOfObjectives());
@@ -156,7 +156,7 @@ SolutionSet * NSGAII::execute() {
       } // if
       
     } // while
-
+    std::cout <<"remain > 0 "<< std::endl;
     // Remain is less than front(index).size, insert only the best one
     if (remain > 0) {  // front contains individuals to insert
       distance->crowdingDistanceAssignment(front, problem_->getNumberOfObjectives());
