@@ -50,10 +50,7 @@ void * BitFlipMutation::doMutation(double probability, Solution *solution) {
 
 
 
-	    Binary * variable = (Binary *)(solution->getDecisionVariables()[0]) ;
-	    for (int j = 0; j < variable->getNumberOfBits() ; j++)
-	      if (PseudoRandom::randDouble() <= mutationProbability_)
-	        variable->flip(j) ;
+
 
 
 	/*
