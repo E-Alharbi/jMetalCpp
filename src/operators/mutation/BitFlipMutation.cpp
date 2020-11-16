@@ -50,7 +50,7 @@ void * BitFlipMutation::doMutation(double probability, Solution *solution) {
 std::cout << "numberOfVariables "<<numberOfVariables<< std::endl;
 std::cout << "mutationProbability_ "<<mutationProbability_<< std::endl;
   for (int i = 0 ; i < numberOfVariables ; i++) {
-	  if(i==numberOfVariables) break;
+
 	  std::cout << "read variable "<< std::endl;
 	  std::cout << "i "<< i<<std::endl;
 	  std::cout << "numberOfVariables "<<numberOfVariables<< std::endl;
@@ -65,6 +65,7 @@ std::cout << "mutationProbability_ "<<mutationProbability_<< std::endl;
       }
     }
     std::cout << "flip loop done "<< std::endl;
+    break;
   }
 } // doMutation
 
