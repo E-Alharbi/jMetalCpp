@@ -89,13 +89,14 @@ SolutionSet * NSGAII::execute() {
   
   // Generations
   while (evaluations < maxEvaluations) {
-	  std::streambuf* cout_sbuf = std::cout.rdbuf(); // save original sbuf
-	     std::ofstream   fout("cout.txt");
-	     std::cout.rdbuf(fout.rdbuf()); // redirect 'cout' to a 'fout'
+	  ofstream myfile;
+	  myfile.open ("logjmetal.txt", std::ios_base::app);
     // Create the offSpring solutionSet
     offspringPopulation = new SolutionSet(populationSize);
     Solution ** parents = new Solution*[2];
-std::cout << "evaluations "<<evaluations<< std::endl;
+
+    myfile << "evaluations \n";
+    myfile.close();
     for (int i = 0; i < (populationSize / 2); i++) {
       if (evaluations < maxEvaluations) {
         //obtain parents
@@ -118,13 +119,17 @@ std::cout << "evaluations "<<evaluations<< std::endl;
         
       } // if
     } // for
-    std::cout <<" delete[] parents "<< std::endl;
+    myfile.open ("logjmetal.txt", std::ios_base::app);
+    myfile <<" delete[] parents \n";
+    myfile.close();
     delete[] parents;
     
     // Create the solutionSet union of solutionSet and offSpring
     unionSolution = population->join(offspringPopulation);
     delete offspringPopulation;
-    std::cout <<" unionSolution "<< std::endl;
+    myfile.open ("logjmetal.txt", std::ios_base::app);
+    myfile <<" unionSolution \n";
+    myfile.close();
     // Ranking the union
     Ranking * ranking = new Ranking(unionSolution);
     
@@ -135,10 +140,14 @@ std::cout << "evaluations "<<evaluations<< std::endl;
       delete population->get(i);
     }
     population->clear();
-    std::cout <<" population->clear(); "<< std::endl;
+    myfile.open ("logjmetal.txt", std::ios_base::app);
+    myfile <<" population->clear(); \n";
+    myfile.close();
     // Obtain the next front
     front = ranking->getSubfront(index);
-    std::cout <<" front = ranking->getSubfront(index); "<< std::endl;
+    myfile.open ("logjmetal.txt", std::ios_base::app);
+    myfile <<" front = ranking->getSubfront(index); \n";
+    myfile.close();
     while ((remain > 0) && (remain >= front->size())) {
       //Assign crowding distance to individuals
       distance->crowdingDistanceAssignment(front, problem_->getNumberOfObjectives());
@@ -158,7 +167,9 @@ std::cout << "evaluations "<<evaluations<< std::endl;
       } // if
       
     } // while
-    std::cout <<"remain > 0 "<< std::endl;
+    myfile.open ("logjmetal.txt", std::ios_base::app);
+    myfile <<"remain > 0 \n";
+    myfile.close();
     // Remain is less than front(index).size, insert only the best one
     if (remain > 0) {  // front contains individuals to insert
       distance->crowdingDistanceAssignment(front, problem_->getNumberOfObjectives());
@@ -174,11 +185,16 @@ std::cout << "evaluations "<<evaluations<< std::endl;
 
     delete ranking;
     delete unionSolution;
-    std::cout <<"population "<<population->size()<< std::endl;
-std::cout << "problem_->evaluateStopConstraints(population->get(0)) "<< std::endl;
+    myfile.open ("logjmetal.txt", std::ios_base::app);
+    myfile <<"population \n";
+    myfile <<population->size() ;
+    myfile <<" \n";
+    myfile <<"problem_->evaluateStopConstraints(population->get(0)) \n";
+    myfile.close();
     if(problem_->evaluateStopConstraints(population->get(0))==true) break;
-    std::cout << "problem_->evaluateStopConstraints(population->get(0)) done"<< std::endl;
-
+    myfile.open ("logjmetal.txt", std::ios_base::app);
+    myfile << "problem_->evaluateStopConstraints(population->get(0)) done \n";
+    myfile.close();
     // This piece of code shows how to use the indicator object into the code
     // of NSGA-II. In particular, it finds the number of evaluations required
     // by the algorithm to obtain a Pareto front with a hypervolume higher
@@ -189,7 +205,7 @@ std::cout << "problem_->evaluateStopConstraints(population->get(0)) "<< std::end
 //        requiredEvaluations = evaluations;
 //      } // if
 //    } // if
-    std::cout.rdbuf(cout_sbuf);
+
   } // while
 
   delete distance;
