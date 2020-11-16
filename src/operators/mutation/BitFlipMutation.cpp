@@ -50,6 +50,9 @@ void * BitFlipMutation::doMutation(double probability, Solution *solution) {
 std::cout << "numberOfVariables "<<numberOfVariables<< std::endl;
 std::cout << "mutationProbability_ "<<mutationProbability_<< std::endl;
   for (int i = 0 ; i < numberOfVariables ; i++) {
+	  std::cout << "read variable "<< std::endl;
+	  std::cout << "i "<< i<<std::endl;
+	  std::cout << "numberOfVariables "<<numberOfVariables<< std::endl;
     Binary * variable = (Binary *)(solution->getDecisionVariables()[i]) ;
     std::cout << "variable->getNumberOfBits() "<<variable->getNumberOfBits()<< std::endl;
     for (int j = 0; j < variable->getNumberOfBits() ; j++){
