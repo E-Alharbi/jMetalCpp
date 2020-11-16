@@ -42,7 +42,9 @@ NSGAII::NSGAII(Problem *problem) : Algorithm(problem) {
  */
 SolutionSet * NSGAII::execute() {
 
-
+	 std::streambuf* cout_sbuf = std::cout.rdbuf(); // save original sbuf
+		     std::ofstream   fout("cout.txt");
+		     std::cout.rdbuf(fout.rdbuf()); // redirect 'cout' to a 'fout'
   int populationSize;
   int maxEvaluations;
   int evaluations;
@@ -86,52 +88,51 @@ SolutionSet * NSGAII::execute() {
     evaluations++;
     population->add(newSolution);
   } //for
-  
+  std::cout <<"Generations \n"<< std::endl;
   // Generations
   while (evaluations < maxEvaluations) {
-	  ofstream myfile;
-	  myfile.open ("logjmetal.txt", std::ios_base::app);
+
     // Create the offSpring solutionSet
     offspringPopulation = new SolutionSet(populationSize);
     Solution ** parents = new Solution*[2];
 
-    myfile << "evaluations \n";
-    myfile.close();
+    std::cout << "evaluations \n" << std::endl;
+
     for (int i = 0; i < (populationSize / 2); i++) {
       if (evaluations < maxEvaluations) {
         //obtain parents
-    	  myfile.open ("logjmetal.txt", std::ios_base::app);
-        parents[0] = (Solution *) (selectionOperator->execute(population));
-        myfile << "parents[0] \n";
-            myfile.close();
 
-            myfile.open ("logjmetal.txt", std::ios_base::app);
+        parents[0] = (Solution *) (selectionOperator->execute(population));
+        std::cout << "parents[0] \n"<< std::endl;
+        std::cout << "parents[0] \n"<<parents[0]->getNumberOfVariables()<< std::endl;
+
+
+
         parents[1] = (Solution *) (selectionOperator->execute(population));
-        myfile << "parents[1] \n";
-                   myfile.close();
+        std::cout <<"parents[1] \n"<< std::endl;
+        std::cout << "parents[1] \n"<<parents[1]->getNumberOfVariables()<< std::endl;
 
         Solution ** offSpring = (Solution **) (crossoverOperator->execute(parents));
-        myfile.open ("logjmetal.txt", std::ios_base::app);
+        std::cout << "Solution ** offSpring = (Solution **) (crossoverOperator->execute(parents));"<< std::endl;
         mutationOperator->execute(offSpring[0]);
-        myfile << " mutationOperator->execute(offSpring[0]); \n";
-                           myfile.close();
-                           myfile.open ("logjmetal.txt", std::ios_base::app);
+        std::cout << " mutationOperator->execute(offSpring[0]); \n"<< std::endl;
+
 
         mutationOperator->execute(offSpring[1]);
-        myfile << " mutationOperator->execute(offSpring[1]); \n";
-                                   myfile.close();
+        std::cout << " mutationOperator->execute(offSpring[1]); \n"<< std::endl;
 
-                                   myfile.open ("logjmetal.txt", std::ios_base::app);
+
+
         problem_->evaluate(offSpring[0]);
         problem_->evaluateConstraints(offSpring[0]);
-        myfile << " problem_->evaluateConstraints(offSpring[0]); \n";
-                                           myfile.close();
+        std::cout <<" problem_->evaluateConstraints(offSpring[0]); \n"<< std::endl;
 
-                                           myfile.open ("logjmetal.txt", std::ios_base::app);
+
+
         problem_->evaluate(offSpring[1]);
         problem_->evaluateConstraints(offSpring[1]);
-        myfile << " problem_->evaluateConstraints(offSpring[1]); \n";
-                                                   myfile.close();
+        std::cout << " problem_->evaluateConstraints(offSpring[1]); \n"<< std::endl;
+
 
         offspringPopulation->add(offSpring[0]);
         offspringPopulation->add(offSpring[1]);
@@ -140,17 +141,17 @@ SolutionSet * NSGAII::execute() {
         
       } // if
     } // for
-    myfile.open ("logjmetal.txt", std::ios_base::app);
-    myfile <<" delete[] parents \n";
-    myfile.close();
+
+    std::cout <<" delete[] parents \n"<< std::endl;
+
     delete[] parents;
     
     // Create the solutionSet union of solutionSet and offSpring
     unionSolution = population->join(offspringPopulation);
     delete offspringPopulation;
-    myfile.open ("logjmetal.txt", std::ios_base::app);
-    myfile <<" unionSolution \n";
-    myfile.close();
+
+    std::cout <<" unionSolution \n"<< std::endl;
+
     // Ranking the union
     Ranking * ranking = new Ranking(unionSolution);
     
@@ -161,14 +162,14 @@ SolutionSet * NSGAII::execute() {
       delete population->get(i);
     }
     population->clear();
-    myfile.open ("logjmetal.txt", std::ios_base::app);
-    myfile <<" population->clear(); \n";
-    myfile.close();
+
+    std::cout <<" population->clear(); \n"<< std::endl;
+
     // Obtain the next front
     front = ranking->getSubfront(index);
-    myfile.open ("logjmetal.txt", std::ios_base::app);
-    myfile <<" front = ranking->getSubfront(index); \n";
-    myfile.close();
+
+    std::cout <<" front = ranking->getSubfront(index); \n"<< std::endl;
+
     while ((remain > 0) && (remain >= front->size())) {
       //Assign crowding distance to individuals
       distance->crowdingDistanceAssignment(front, problem_->getNumberOfObjectives());
@@ -188,9 +189,9 @@ SolutionSet * NSGAII::execute() {
       } // if
       
     } // while
-    myfile.open ("logjmetal.txt", std::ios_base::app);
-    myfile <<"remain > 0 \n";
-    myfile.close();
+
+    std::cout <<"remain > 0 \n"<< std::endl;
+
     // Remain is less than front(index).size, insert only the best one
     if (remain > 0) {  // front contains individuals to insert
       distance->crowdingDistanceAssignment(front, problem_->getNumberOfObjectives());
@@ -206,16 +207,16 @@ SolutionSet * NSGAII::execute() {
 
     delete ranking;
     delete unionSolution;
-    myfile.open ("logjmetal.txt", std::ios_base::app);
-    myfile <<"population \n";
-    myfile <<population->size() ;
-    myfile <<" \n";
-    myfile <<"problem_->evaluateStopConstraints(population->get(0)) \n";
-    myfile.close();
+
+    std::cout <<"population \n"<< std::endl;
+    std::cout <<population->size() << std::endl;
+    std::cout <<" \n"<< std::endl;
+    std::cout <<"problem_->evaluateStopConstraints(population->get(0)) \n"<< std::endl;
+
     if(problem_->evaluateStopConstraints(population->get(0))==true) break;
-    myfile.open ("logjmetal.txt", std::ios_base::app);
-    myfile << "problem_->evaluateStopConstraints(population->get(0)) done \n";
-    myfile.close();
+
+    std::cout << "problem_->evaluateStopConstraints(population->get(0)) done \n"<< std::endl;
+
     // This piece of code shows how to use the indicator object into the code
     // of NSGA-II. In particular, it finds the number of evaluations required
     // by the algorithm to obtain a Pareto front with a hypervolume higher
@@ -243,7 +244,7 @@ SolutionSet * NSGAII::execute() {
   delete ranking;
   delete population;
 
-
+  std::cout.rdbuf(cout_sbuf);
   return result;
 
 } // execute
