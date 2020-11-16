@@ -100,18 +100,39 @@ SolutionSet * NSGAII::execute() {
     for (int i = 0; i < (populationSize / 2); i++) {
       if (evaluations < maxEvaluations) {
         //obtain parents
+    	  myfile.open ("logjmetal.txt", std::ios_base::app);
         parents[0] = (Solution *) (selectionOperator->execute(population));
+        myfile << "parents[0] \n";
+            myfile.close();
+
+            myfile.open ("logjmetal.txt", std::ios_base::app);
         parents[1] = (Solution *) (selectionOperator->execute(population));
-        
+        myfile << "parents[1] \n";
+                   myfile.close();
+
         Solution ** offSpring = (Solution **) (crossoverOperator->execute(parents));
-        
+        myfile.open ("logjmetal.txt", std::ios_base::app);
         mutationOperator->execute(offSpring[0]);
+        myfile << " mutationOperator->execute(offSpring[0]); \n";
+                           myfile.close();
+                           myfile.open ("logjmetal.txt", std::ios_base::app);
+
         mutationOperator->execute(offSpring[1]);
-        
+        myfile << " mutationOperator->execute(offSpring[1]); \n";
+                                   myfile.close();
+
+                                   myfile.open ("logjmetal.txt", std::ios_base::app);
         problem_->evaluate(offSpring[0]);
         problem_->evaluateConstraints(offSpring[0]);
+        myfile << " problem_->evaluateConstraints(offSpring[0]); \n";
+                                           myfile.close();
+
+                                           myfile.open ("logjmetal.txt", std::ios_base::app);
         problem_->evaluate(offSpring[1]);
         problem_->evaluateConstraints(offSpring[1]);
+        myfile << " problem_->evaluateConstraints(offSpring[1]); \n";
+                                                   myfile.close();
+
         offspringPopulation->add(offSpring[0]);
         offspringPopulation->add(offSpring[1]);
         evaluations += 2;
