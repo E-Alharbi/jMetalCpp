@@ -46,14 +46,25 @@ BitFlipMutation::~BitFlipMutation() { } // ~BitFlipMutation
  * @param solution The solution to mutate
  */
 void * BitFlipMutation::doMutation(double probability, Solution *solution) {
-  int numberOfVariables = solution->getNumberOfVariables() ;
+
+
+
+
+	    Binary * variable = (Binary *)(solution->getDecisionVariables()[0]) ;
+	    for (int j = 0; j < variable->getNumberOfBits() ; j++)
+	      if (PseudoRandom::randDouble() <= mutationProbability_)
+	        variable->flip(j) ;
+
+
+	/*
+	int numberOfVariables = solution->getNumberOfVariables() ;
 std::cout << "numberOfVariables1 "<<numberOfVariables<< std::endl;
 std::cout << "mutationProbability_ "<<mutationProbability_<< std::endl;
   for (int i = 0 ; i < numberOfVariables ; i++) {
 
-	  std::cout << "read variable "<< std::endl;
-	  std::cout << "i "<< i<<std::endl;
-	  std::cout << "numberOfVariables2 "<<numberOfVariables<< std::endl;
+	std::cout << "read variable "<< std::endl;
+	std::cout << "i "<< i<<std::endl;
+	std::cout << "numberOfVariables2 "<<numberOfVariables<< std::endl;
     Binary * variable = (Binary *)(solution->getDecisionVariables()[i]) ;
     std::cout << "variable->getNumberOfBits() "<<variable->getNumberOfBits()<< std::endl;
     for (int j = 0; j < variable->getNumberOfBits() ; j++){
@@ -68,6 +79,7 @@ std::cout << "mutationProbability_ "<<mutationProbability_<< std::endl;
     std::cout << "numberOfVariables3 "<<numberOfVariables<< std::endl;
     std::cout << "solution->getNumberOfVariables() "<<solution->getNumberOfVariables()<< std::endl;
   }
+  */
 } // doMutation
 
 
