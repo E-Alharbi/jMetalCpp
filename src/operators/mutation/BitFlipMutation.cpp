@@ -47,12 +47,18 @@ BitFlipMutation::~BitFlipMutation() { } // ~BitFlipMutation
  */
 void * BitFlipMutation::doMutation(double probability, Solution *solution) {
   int numberOfVariables = solution->getNumberOfVariables() ;
-
+std::cout << "numberOfVariables "<<numberOfVariables<< std::endl;
   for (int i = 0 ; i < numberOfVariables ; i++) {
     Binary * variable = (Binary *)(solution->getDecisionVariables()[i]) ;
-    for (int j = 0; j < variable->getNumberOfBits() ; j++)
-      if (PseudoRandom::randDouble() <= mutationProbability_)
+    std::cout << "variable->getNumberOfBits() "<<variable->getNumberOfBits()<< std::endl;
+    for (int j = 0; j < variable->getNumberOfBits() ; j++){
+    	std::cout << "j "<<j<< std::endl;
+      if (PseudoRandom::randDouble() <= mutationProbability_){
+    	  std::cout << "flip "<<j<< std::endl;
         variable->flip(j) ;
+        std::cout << "flip done"<<j<< std::endl;
+      }
+    }
   }
 } // doMutation
 
