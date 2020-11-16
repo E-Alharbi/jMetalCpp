@@ -48,6 +48,7 @@ BitFlipMutation::~BitFlipMutation() { } // ~BitFlipMutation
 void * BitFlipMutation::doMutation(double probability, Solution *solution) {
   int numberOfVariables = solution->getNumberOfVariables() ;
 std::cout << "numberOfVariables "<<numberOfVariables<< std::endl;
+std::cout << "mutationProbability_ "<<mutationProbability_<< std::endl;
   for (int i = 0 ; i < numberOfVariables ; i++) {
     Binary * variable = (Binary *)(solution->getDecisionVariables()[i]) ;
     std::cout << "variable->getNumberOfBits() "<<variable->getNumberOfBits()<< std::endl;
@@ -59,6 +60,7 @@ std::cout << "numberOfVariables "<<numberOfVariables<< std::endl;
         std::cout << "flip done"<<j<< std::endl;
       }
     }
+    std::cout << "flip loop done "<< std::endl;
   }
 } // doMutation
 
@@ -72,8 +74,9 @@ std::cout << "numberOfVariables "<<numberOfVariables<< std::endl;
 void * BitFlipMutation::execute(void *object) {
   Solution *solution = (Solution *)object;
   // TODO: VALID_TYPES?
-
+  std::cout << "doMutation "<< std::endl;
   doMutation(mutationProbability_, solution)  ;
+  std::cout << "doMutation done"<< std::endl;
 
   return solution;
 } // execute
