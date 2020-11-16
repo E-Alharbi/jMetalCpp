@@ -49,11 +49,6 @@ void * BitFlipMutation::doMutation(double probability, Solution *solution) {
 
 
 
-
-
-
-
-	/*
 	int numberOfVariables = solution->getNumberOfVariables() ;
 std::cout << "numberOfVariables1 "<<numberOfVariables<< std::endl;
 std::cout << "mutationProbability_ "<<mutationProbability_<< std::endl;
@@ -76,7 +71,7 @@ std::cout << "mutationProbability_ "<<mutationProbability_<< std::endl;
     std::cout << "numberOfVariables3 "<<numberOfVariables<< std::endl;
     std::cout << "solution->getNumberOfVariables() "<<solution->getNumberOfVariables()<< std::endl;
   }
-  */
+
 } // doMutation
 
 

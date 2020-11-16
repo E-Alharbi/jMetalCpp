@@ -114,11 +114,11 @@ SolutionSet * NSGAII::execute() {
 
         Solution ** offSpring = (Solution **) (crossoverOperator->execute(parents));
         std::cout << "Solution ** offSpring = (Solution **) (crossoverOperator->execute(parents));"<< std::endl;
-        mutationOperator->execute(offSpring[0]);
+       // mutationOperator->execute(offSpring[0]);
         std::cout << " mutationOperator->execute(offSpring[0]); \n"<< std::endl;
 
 
-        mutationOperator->execute(offSpring[1]);
+        //mutationOperator->execute(offSpring[1]);
         std::cout << " mutationOperator->execute(offSpring[1]); \n"<< std::endl;
 
 
