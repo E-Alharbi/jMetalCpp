@@ -65,7 +65,8 @@ std::cout << "mutationProbability_ "<<mutationProbability_<< std::endl;
       }
     }
     std::cout << "flip loop done "<< std::endl;
-
+    std::cout << "numberOfVariables3 "<<numberOfVariables<< std::endl;
+    std::cout << "solution->getNumberOfVariables() "<<solution->getNumberOfVariables()<< std::endl;
   }
 } // doMutation
 
