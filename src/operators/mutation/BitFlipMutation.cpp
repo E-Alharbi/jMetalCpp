@@ -65,7 +65,7 @@ std::cout << "mutationProbability_ "<<mutationProbability_<< std::endl;
       }
     }
     std::cout << "flip loop done "<< std::endl;
-    break;
+
   }
 } // doMutation
 
